@@ -1,5 +1,5 @@
-include <screwprimitives.scad>
-include <HeartPrimitives.scad>
+include <helperfunctions-openscad/screwprimitives.scad>
+include <helperfunctions-openscad/HeartPrimitives.scad>
 include <LuluaStaffSide.scad>
 
 PipeDiameter = 27.5; // Use 3/4" Schedule 40 PVC pipe.
@@ -88,6 +88,7 @@ module LuluaStaffBottle()
             translate([0,0,-180]) cylinder(d=50,h=70,center=true,$fn=128);
         }
         translate([0,0,-200]) cylinder(d=PipeDiameter,h=400,$fn=256,center=true);
+        translate([0,0,-112]) sphere(d=80,$fn=256);
         
         
     }
@@ -149,12 +150,12 @@ module LuluaStaffHeartTopBody()
                
             linear_extrude(height=15,center=true)
             {
-                heart_mod(h=100,center=true);
+                heart_mod(h=100,center=true,fn=256);
             }                            
     
             linear_extrude(height=20,center=true)
             {
-                heart_mod(h=80,center=true);
+                heart_mod(h=80,center=true,fn=256);
             }            
         }
         translate([0,0,-220]) cylinder(d=ScrewDiameter8,h=120,$fn=64,center=true);
@@ -202,6 +203,27 @@ module LuluaStaffSideFinal()
     }
 }
 
+// Used to create rounded heart for the first part of the chain.
+// Doing this avoids having to use the very slow minkowski() function.
+module Heart1RoundSubmodule()
+{
+    intersection()
+    {
+        union()
+        {
+            translate([-(28.836911246395385) * cos(45), 16.2, 0])            
+            rotate_extrude(angle=360,$fn=256)
+            {
+                translate([28.836911246395385-7.5,0,0]) circle(d=15,$fn=128);
+            }
+            
+            translate([0,-4.15,0]) rotate([0,0,45]) translate([-(28.836911246395385-7.5),0,0]) rotate([90,0,0])
+                cylinder(h=28.836911246395385*2,d=15,center=true,$fn=128);
+        }
+        translate([-50,0,0]) cube(100,center=true);
+    }
+}
+
 module LuluaStaffHeartChain1()
 {
     
@@ -214,16 +236,18 @@ module LuluaStaffHeartChain1()
             difference()
             {
                    
-                linear_extrude(height=15,center=true)
+                union()
                 {
-                    heart_mod(h=90,center=true);
-                }                            
+                    Heart1RoundSubmodule();
+                    mirror([1,0,0]) Heart1RoundSubmodule();
+                }                           
         
                 linear_extrude(height=20,center=true)
                 {
-                    heart_mod(h=70,center=true);
+                    heart_mod(h=70,center=true,fn=128);
                 }            
             }
+               
             translate([0,-46,0])
             difference()
             {
@@ -246,14 +270,15 @@ module LuluaStaffHeartChain2()
         difference()
         {
                
-            linear_extrude(height=15,center=true)
-            {
-                heart_mod(h=90,center=true);
-            }                            
+            union()
+                {
+                    Heart1RoundSubmodule();
+                    mirror([1,0,0]) Heart1RoundSubmodule();
+                }                          
     
             linear_extrude(height=20,center=true)
             {
-                heart_mod(h=70,center=true);
+                heart_mod(h=70,center=true,fn=128);
             }            
         }
         translate([0,-46,0])
@@ -271,6 +296,25 @@ module LuluaStaffHeartChain2()
     }              
 }
 
+module Heart3RoundSubmodule()
+{
+    intersection()
+    {
+        union()
+        {
+            translate([-(22.42870874719641) * cos(45), 12.58, 0])            
+            rotate_extrude(angle=360,$fn=256)
+            {
+                translate([22.42870874719641-5,0,0]) circle(d=10,$fn=128);
+            }
+            
+            translate([0,-3.32,0]) rotate([0,0,45]) translate([-(22.42870874719641-5),0,0]) rotate([90,0,0])
+                cylinder(h=22.42870874719641*2,d=10,center=true,$fn=128);
+        }
+        translate([-50,0,0]) cube(100,center=true);
+    }
+}
+
 module LuluaStaffHeartChain3()
 {
     translate([125,-70,-120])
@@ -280,15 +324,16 @@ module LuluaStaffHeartChain3()
         difference()
         {
                
-            linear_extrude(height=10,center=true)
+            union()
             {
-                heart_mod(h=70,center=true);
-            }                            
-    
-            linear_extrude(height=15,center=true)
+                Heart3RoundSubmodule();
+                mirror([1,0,0]) Heart3RoundSubmodule();
+            }
+                                              
+            linear_extrude(height=20,center=true)
             {
-                heart_mod(h=50,center=true);
-            }            
+                heart_mod(h=55,center=true,fn=128);
+            }         
         }
         translate([0,-36.5,0])
         difference()
@@ -304,6 +349,27 @@ module LuluaStaffHeartChain3()
         }
     }              
 }
+
+module Heart4RoundSubmodule()
+{
+    intersection()
+    {
+        union()
+        {
+            translate([-(12.81640499839795) * cos(45), 7.12, 0])            
+            rotate_extrude(angle=360,$fn=256)
+            {
+                translate([12.81640499839795-2.5,0,0]) circle(d=5,$fn=128);
+            }
+            
+            translate([0,-1.945,0]) rotate([0,0,45]) translate([-(12.81640499839795-2.5),0,0]) rotate([90,0,0])
+                cylinder(h=12.81640499839795*2,d=5,center=true,$fn=128);
+            ;
+        }
+        translate([-50,0,0]) cube(100,center=true);
+    }
+}
+
 module LuluaStaffHeartChain4()
 {
     translate([125,-50,-60])
@@ -313,26 +379,27 @@ module LuluaStaffHeartChain4()
         difference()
         {
                
-            linear_extrude(height=5,center=true)
+            union()
             {
-                heart_mod(h=40,center=true);
-            }                            
-    
-            linear_extrude(height=10,center=true)
+                Heart4RoundSubmodule();
+                mirror([1,0,0]) Heart4RoundSubmodule();
+            }
+                                              
+            linear_extrude(height=20,center=true)
             {
-                heart_mod(h=30,center=true);
+                heart_mod(h=32.5,center=true,fn=128);
             }            
         }
         translate([0,-21.5,0])
         difference()
         {
-            cylinder(h=5,d=5,center=true,$fn=64);
+            cylinder(h=3,d=5,center=true,$fn=64);
             cylinder(h=5.1,d=2.5,center=true,$fn=64);
         }
         translate([0,18,0])
         difference()
         {
-            cylinder(h=5,d=5,center=true,$fn=64);
+            cylinder(h=3,d=5,center=true,$fn=64);
             cylinder(h=5.1,d=2.5,center=true,$fn=64);
         }
     }              
