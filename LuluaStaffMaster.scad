@@ -158,14 +158,25 @@ module LuluaStaffHeartTopBody()
                 heart_mod(h=80,center=true,fn=256);
             }            
         }
-        translate([0,0,-220]) cylinder(d=ScrewDiameter8,h=120,$fn=64,center=true);
-        translate([0,0,-270]) cylinder(d=10,h=40,$fn=64,center=true);
-        scale([1.02,1.02,1.02]) LuluaStaffHeartTopSpike();
+        
+        
         scale([1.02,1.02,1.02]) LuluaStaffHeartTopFin();
         scale([1.02,1.02,1.02]) mirror([1,0,0]) LuluaStaffHeartTopFin();
-        translate([-80,0,-250]) rotate([0,-45,0]) cylinder(d=ScrewDiameter6,h=120,$fn=64,center=true);
-        translate([-41,0,-288.8]) rotate([0,-45,0]) cylinder(d=8,h=10,$fn=64,center=true);
+        #translate([-80,0,-250]) rotate([0,-45,0]) cylinder(d=ScrewDiameter6,h=120,$fn=64,center=true);
+        #translate([-39,0,-290.8]) rotate([0,-45,0]) cylinder(d=8,h=10,$fn=64,center=true);
     }        
+}
+
+// This is the old version that can be disassembled
+module LuluaStaffHeartTopBody_old()
+{
+    difference()
+    {
+        LuluaStaffHeartTopBody();
+        translate([0,0,-220]) cylinder(d=ScrewDiameter8,h=120,$fn=64,center=true);
+        translate([0,0,-270]) cylinder(d=10,h=40,$fn=64,center=true);
+        scale([1.02,1.02,1.02]) LuluaStaffHeartTopSpike();        
+    }
 }
 
 module LuluaStaffHeartTopBase()
@@ -184,13 +195,21 @@ module LuluaStaffHeartTopBase()
                 cylinder(d=50,h=1,center=true,$fn=128);
             }
         }
-        scale([1.01,1.01,1.01]) LuluaStaffHeartTopBody();
-        translate([0,0,-220]) cylinder(d=PipeDiameter,h=40,$fn=256,center=true);
-        translate([0,0,-220]) cylinder(d=ScrewDiameter8,h=120,$fn=64,center=true);
+       
+        translate([0,0,-220]) cylinder(d=PipeDiameter,h=40,$fn=256,center=true);        
     }
 }
 
-
+// This is the old version that can be disassembled
+module LuluaStaffHeartTopBase_old()
+{
+    difference()
+    {
+        LuluaStaffHeartTopBase();
+        scale([1.1,1.1,1.01]) LuluaStaffHeartTopBody();
+        scale([1.1,1.1,1.01]) translate([0,0,-220]) cylinder(d=ScrewDiameter8,h=120,$fn=256,center=true);
+    }
+}
 
 
 module LuluaStaffSideFinal()
@@ -230,7 +249,7 @@ module LuluaStaffHeartChain1()
     difference()
     {
         translate([-75,0,-240])
-        rotate([-90,30,0])
+        rotate([-90,20,0])
         union()
         {
             difference()
@@ -428,5 +447,4 @@ LuluaStaffHeartTopFin();
 mirror([1,0,0]) LuluaStaffHeartTopFin();
 
 //translate([0,0,-319.1])cylinder(h=1,d=20,$fn=32);
-LuluaStaffHeartTopSpike();
-*/
+LuluaStaffHeartTopSpike();*/
